@@ -1,0 +1,8 @@
+.grayscale_filter {
+	-webkit-filter: saturate(0.03);
+	filter: saturate(0.03);
+}
+
+body {
+	background: lightblue;
+}
