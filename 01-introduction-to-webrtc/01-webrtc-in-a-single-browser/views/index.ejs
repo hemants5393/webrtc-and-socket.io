@@ -8,28 +8,58 @@
     <link rel="stylesheet" href="/css/styles.css" />
   </head>
   <body>
-    <video autoplay></video>
-
+    <video></video>
+    <div id="errorMsg"></div>
     <script>
-      navigator.getUserMedia =
-        navigator.getUserMedia ||
-        navigator.webkitGetUserMedia ||
-        navigator.mozGetUserMedia;
-
-      const constraints = { audio: true, video: true };
+      // Put variables in global scope to make them available to the browser console.
       const videoArea = document.querySelector("video");
+      const errorElement = document.querySelector("#errorMsg");
+      const constraints = { audio: false, video: true };
 
-      const onSuccess = (stream) => {
-        console.log("Success! We have a stream!");
+      // Initiate streaming
+      init();
+
+      async function init() {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia(constraints);
+          handleSuccess(stream);
+        } catch (error) {
+          handleError(error);
+        }
+      }
+
+      function handleSuccess(stream) {
+        const videoTracks = stream.getVideoTracks();
+        console.log("Success!, Got stream with constraints:", constraints);
+        console.log(`Using video device: ${videoTracks[0].label}`);
+        window.stream = stream; // make variable available to browser console
         videoArea.srcObject = stream;
+        videoArea.className = "grayscale_filter";
         videoArea.play();
-      };
+      }
 
-      const onError = (error) => {
-        console.log("Error with getUserMedia: ", error);
-      };
+      function handleError(error) {
+        if (error.name === "ConstraintNotSatisfiedError") {
+          const v = constraints.video;
+          errorMsg(
+            `The resolution ${v.width.exact}x${v.height.exact} px is not supported by your device.`
+          );
+        } else if (error.name === "PermissionDeniedError") {
+          errorMsg(
+            "Permissions have not been granted to use your camera and " +
+              "microphone, you need to allow the page access to your devices in " +
+              "order for the app to work."
+          );
+        }
+        errorMsg(`Error with getUserMedia: ${error.name}`, error);
+      }
 
-      navigator.getUserMedia(constraints, onSuccess, onError);
+      function errorMsg(msg, error) {
+        errorElement.innerHTML += `<p>${msg}</p>`;
+        if (typeof error !== "undefined") {
+          console.error(error);
+        }
+      }
     </script>
   </body>
 </html>
