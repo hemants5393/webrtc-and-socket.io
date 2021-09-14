@@ -8,33 +8,106 @@
     <link rel="stylesheet" href="/css/styles.css" />
   </head>
   <body>
-    <video></video>
+    <div>
+      Video source:
+      <select id="camera"></select>
+    </div>
+    <br />
+    <div>
+      Audio input source:
+      <select id="audioSource"></select>
+    </div>
+    <br />
+    <div><video></video></div>
     <div id="errorMsg"></div>
     <script>
-      // Put variables in global scope to make them available to the browser console.
+      // Variables declaration
+      const videoSelect = document.querySelector("#camera");
+      const audioInputSelect = document.querySelector("select#audioSource");
       const videoArea = document.querySelector("video");
       const errorElement = document.querySelector("#errorMsg");
-      const constraints = { audio: false, video: true };
+
+      // Fetch the media devices (cameras, audio devices etc..)
+      getMediaDevices();
+
+      // Pass "startStream" as callback when the dropdown select is changed for audio or video
+      videoSelect.onchange = startStream;
+      audioInputSelect.onchange = startStream;
 
       // Initiate streaming
-      init();
+      startStream();
 
-      async function init() {
+      async function getMediaDevices() {
         try {
+          const deviceInfos = await navigator.mediaDevices.enumerateDevices();
+          if (deviceInfos) {
+            gotDevices(deviceInfos);
+          }
+        } catch (error) {
+          handleDevicesError(error);
+        }
+      }
+
+      function gotDevices(deviceInfos) {
+        for (let i = 0; i !== deviceInfos.length; ++i) {
+          const deviceInfo = deviceInfos[i];
+          const option = document.createElement("option");
+          option.value = deviceInfo.deviceId;
+          if (deviceInfo.kind === "videoinput") {
+            // Append available cameras to the video dropdown list
+            console.info("Found video output device: ", deviceInfo.label);
+            option.text =
+              deviceInfo.label || "camera " + (videoSelect.length + 1);
+            videoSelect.appendChild(option);
+          } else if (deviceInfo.kind === "audioinput") {
+            // Append available audio input devices to the audio dropdown list
+            option.text =
+              deviceInfo.label || `microphone ${audioInputSelect.length + 1}`;
+            audioInputSelect.appendChild(option);
+          } else {
+            console.log("Found non video output device: ", deviceInfo.label);
+          }
+        }
+      }
+
+      function handleDevicesError(error) {
+        console.log(
+          "navigator.MediaDevices.getUserMedia error: ",
+          error.message,
+          error.name
+        );
+      }
+
+      async function startStream() {
+        try {
+          const videoSource = videoSelect.value;
+          const audioSource = audioInputSelect.value;
+          const constraints = {
+            audio: {
+              deviceId: audioSource ? { exact: audioSource } : undefined,
+            },
+            video: {
+              deviceId: videoSource ? { exact: videoSource } : undefined,
+              minWidth: 640,
+              maxWidth: 640,
+              minHeight: 360,
+              maxHeight: 480,
+            },
+          };
           const stream = await navigator.mediaDevices.getUserMedia(constraints);
-          handleSuccess(stream);
+          handleSuccess(stream, constraints);
         } catch (error) {
           handleError(error);
         }
       }
 
-      function handleSuccess(stream) {
+      function handleSuccess(stream, constraints) {
         const videoTracks = stream.getVideoTracks();
         console.log("Success!, Got stream with constraints:", constraints);
         console.log(`Using video device: ${videoTracks[0].label}`);
         window.stream = stream; // make variable available to browser console
         videoArea.srcObject = stream;
-        videoArea.className = "grayscale_filter";
+        // videoArea.className = "grayscale_filter";
         videoArea.play();
       }
 
