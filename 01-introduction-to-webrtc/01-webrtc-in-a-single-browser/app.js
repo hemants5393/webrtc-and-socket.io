@@ -13,7 +13,7 @@ app.set("view engine", "ejs");
 app.set("views", "views");
 
 // Serving the "public" folder statically (Serve the files in the folder as if they were in the root folder)
-app.use(express.static(path.join(path.dirname(require.main.filename), "public")));
+app.use(express.static(__dirname + "/public"));
 
 app.use("/", (req, res, next) => {
   /* 
