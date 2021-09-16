@@ -9,17 +9,30 @@
     <script src="/js/main.js"" defer></script>
   </head>
   <body>
-    <div>
-      Video source:
-      <select id="camera"></select>
+    <div class="contentarea">
+      <div>
+        Video source:
+        <select id="camera"></select>
+      </div>
+      <br />
+      <div>
+        Audio input source:
+        <select id="audioSource"></select>
+      </div>
+      <br />
+      <div class="camera">
+        <video id="video"></video>
+        <button id="takePicButton">Take picture</button> 
+      </div>
+      <canvas id="profilePicCanvas">
+      </canvas>
+      <div class="clearPicButton">
+        <button id="clearPicButton">Clear picture</button> 
+      </div>
+      <div class="profilePicOutput">
+        <img id="profilePicOutput" alt="The screen capture will appear in this box."> 
+      </div>
+      <div id="errorMsg"></div>
     </div>
-    <br />
-    <div>
-      Audio input source:
-      <select id="audioSource"></select>
-    </div>
-    <br />
-    <div><video></video></div>
-    <div id="errorMsg"></div>
   </body>
 </html>

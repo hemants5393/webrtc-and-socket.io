@@ -3,6 +3,12 @@ const videoSelect = document.querySelector("#camera");
 const audioInputSelect = document.querySelector("select#audioSource");
 const videoArea = document.querySelector("video");
 const errorElement = document.querySelector("#errorMsg");
+const takePicButton = document.querySelector("#takePicButton");
+const profilePicCanvas = document.querySelector("#profilePicCanvas");
+const profilePicOutput = document.querySelector("#profilePicOutput");
+let width = 320; // We will scale the photo width to this
+let height = 0; // This will be computed based on the input stream
+let streaming = false; // Indicates whether or not we're currently streaming
 
 // Fetch the media devices (cameras, audio devices etc..)
 getMediaDevices();
@@ -109,3 +115,72 @@ function errorMsg(msg, error) {
     console.error(error);
   }
 }
+
+/* Profile pic capture functionality starts here. */
+takePicButton.addEventListener(
+  "click",
+  function (ev) {
+    takeProfilePic();
+    ev.preventDefault();
+  },
+  false
+);
+
+clearPicButton.addEventListener("click", clearphoto, false);
+
+// Run it at startup to create the picture output box
+clearphoto();
+
+// Fill the photo with an indication that none has been captured.
+function clearphoto() {
+  var context = profilePicCanvas.getContext("2d");
+  context.fillStyle = "#AAA";
+  context.fillRect(0, 0, profilePicCanvas.width, profilePicCanvas.height);
+
+  var data = profilePicCanvas.toDataURL("image/png");
+  profilePicOutput.setAttribute("src", data);
+}
+
+// Capture a photo by fetching the current contents of the video
+// and drawing it into a canvas, then converting that to a PNG
+// format data URL. By drawing it on an offscreen canvas and then
+// drawing that to the screen, we can change its size and/or apply
+// other changes before drawing it.
+function takeProfilePic() {
+  var context = profilePicCanvas.getContext("2d");
+  if (width && height) {
+    profilePicCanvas.width = width;
+    profilePicCanvas.height = height;
+    context.drawImage(videoArea, 0, 0, width, height);
+
+    var data = profilePicCanvas.toDataURL("image/png");
+    profilePicOutput.setAttribute("src", data);
+  } else {
+    clearphoto();
+  }
+}
+
+// To calculate the width and height only once
+videoArea.addEventListener(
+  "canplay",
+  function (ev) {
+    if (!streaming) {
+      height = videoArea.videoHeight / (videoArea.videoWidth / width);
+
+      // Firefox currently has a bug where the height can't be read from
+      // the video, so we will make assumptions if this happens.
+
+      if (isNaN(height)) {
+        height = width / (4 / 3);
+      }
+
+      videoArea.setAttribute("width", width);
+      videoArea.setAttribute("height", height);
+      profilePicCanvas.setAttribute("width", width);
+      profilePicCanvas.setAttribute("height", height);
+      streaming = true;
+    }
+  },
+  false
+);
+/* Profile pic capture functionality ends here. */
