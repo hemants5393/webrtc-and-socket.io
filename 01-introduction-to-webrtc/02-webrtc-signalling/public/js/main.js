@@ -190,14 +190,46 @@ const myName = document.querySelector("#myName");
 const myMessage = document.querySelector("#myMessage");
 const sendMessage = document.querySelector("#sendMessage");
 const chatArea = document.querySelector("#chatArea");
-const ROOM = "chat";
+const ROOM = "chatRoom-1";
 const socket = io();
+
+sendMessage.addEventListener("click", function (e) {
+  e.preventDefault();
+  if (myName.value && myMessage.value) {
+    socket.emit("send", {
+      textMsg: myMessage.value,
+      author: myName.value,
+      room: ROOM,
+    });
+    myMessage.value = "";
+  }
+});
 
 socket.on("connect", () => {
   console.log("Socket connected on client side:", socket.id);
+  // Emit "ready" event when user connected
+  socket.emit("ready", {
+    userId: socket.id,
+    room: ROOM,
+  });
 });
 
 socket.on("disconnect", () => {
   console.log("Socket disconnected on client side:", socket.id);
 });
+
+// Listening to "announce" event from server side
+socket.on("announce", function (data) {
+  displayMessage(data.textMsg);
+});
+
+// Listening to "message" event from server side
+socket.on("message", function (data) {
+  const userName = `<span class="chatUserName">${data.author} : </span>`;
+  displayMessage(userName + data.textMsg);
+});
+
+function displayMessage(message) {
+  chatArea.innerHTML = chatArea.innerHTML + "<br/>" + message;
+}
 /* Code for socket.io functionality ends here */

@@ -4,7 +4,7 @@
 }
 
 body {
-  background: lightblue;
+  background: azure;
 }
 
 .contentarea {
@@ -57,4 +57,25 @@ body {
 
 .clearPicButton {
   margin-bottom: 10px;
+}
+
+.chatAreaLabel {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#chatArea {
+  width: 600px;
+    border: 1px solid darkgrey;
+    min-height: 400px;
+    box-shadow: 2px 2px 5px black;
+    padding: 10px;
+}
+
+.chatUserName {
+  background: gold;
+    display: inline-block;
+    padding: 3px;
+    border: 1px solid grey;
+    border-radius: 5px;
 }
