@@ -32,7 +32,7 @@ app.get("/", (req, res, next) => {
 });
 
 // Start the server on localhost with port "3000"
-app.listen(3000);
+const server = app.listen(3000);
 
 // Setup socket.io
 const io = require("./socket").init(server);
