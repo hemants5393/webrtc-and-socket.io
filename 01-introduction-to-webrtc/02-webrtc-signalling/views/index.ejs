@@ -23,17 +23,29 @@
       <br />
       <div class="camera">
         <video id="video"></video>
-        <button id="takePicButton">Take picture</button> 
+        <button id="takePicButton">Take picture</button>
       </div>
-      <canvas id="profilePicCanvas">
-      </canvas>
+      <canvas id="profilePicCanvas"> </canvas>
       <div class="clearPicButton">
-        <button id="clearPicButton">Clear picture</button> 
+        <button id="clearPicButton">Clear picture</button>
       </div>
       <div class="profilePicOutput">
-        <img id="profilePicOutput" alt="The screen capture will appear in this box."> 
+        <img
+          id="profilePicOutput"
+          alt="The screen capture will appear in this box."
+        />
       </div>
       <div id="errorMsg"></div>
+
+      <!-- Code for Chat app using socket.io -->
+      <div class="chat-container">
+        <label for="">Your Name: </label>
+        <input type="text" name="" id="myName" />
+        <label for="">Message: </label>
+        <input type="text" name="" id="myMessage" />
+        <input type="submit" name="" id="sendMessage" />
+        <div id="chatArea">Message Output:<br /></div>
+      </div>
     </div>
   </body>
 </html>

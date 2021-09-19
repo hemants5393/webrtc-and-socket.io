@@ -186,6 +186,11 @@ videoArea.addEventListener(
 /* Profile pic capture functionality ends here. */
 
 /* Code for socket.io functionality starts here */
+const myName = document.querySelector("#myName");
+const myMessage = document.querySelector("#myMessage");
+const sendMessage = document.querySelector("#sendMessage");
+const chatArea = document.querySelector("#chatArea");
+const ROOM = "chat";
 const socket = io();
 
 socket.on("connect", () => {
