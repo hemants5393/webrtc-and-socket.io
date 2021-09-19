@@ -184,3 +184,15 @@ videoArea.addEventListener(
   false
 );
 /* Profile pic capture functionality ends here. */
+
+/* Code for socket.io functionality starts here */
+const socket = io();
+
+socket.on("connect", () => {
+  console.log("Socket connected on client side:", socket.id);
+});
+
+socket.on("disconnect", () => {
+  console.log("Socket disconnected on client side:", socket.id);
+});
+/* Code for socket.io functionality ends here */
