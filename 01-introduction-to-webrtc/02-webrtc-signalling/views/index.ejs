@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Introduction to WebRTC</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+    <script src="/js/main.js"" defer></script>
+  </head>
+  <body>
+    <div class="contentarea">
+      <div>
+        Video source:
+        <select id="camera"></select>
+      </div>
+      <br />
+      <div>
+        Audio input source:
+        <select id="audioSource"></select>
+      </div>
+      <br />
+      <div class="camera">
+        <video id="video"></video>
+        <button id="takePicButton">Take picture</button> 
+      </div>
+      <canvas id="profilePicCanvas">
+      </canvas>
+      <div class="clearPicButton">
+        <button id="clearPicButton">Clear picture</button> 
+      </div>
+      <div class="profilePicOutput">
+        <img id="profilePicOutput" alt="The screen capture will appear in this box."> 
+      </div>
+      <div id="errorMsg"></div>
+    </div>
+  </body>
+</html>
