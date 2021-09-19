@@ -22,14 +22,20 @@ app.use("/", (req, res, next) => {
     */
   if (req.originalUrl.includes("favicon.ico")) {
     return res.status(204).end();
-  } 
+  }
   // Forward the incoming request to the next middleware
   next();
 });
 
 app.get("/", (req, res, next) => {
-    res.render("index");
+  res.render("index");
 });
 
 // Start the server on localhost with port "3000"
 app.listen(3000);
+
+// Setup socket.io
+const io = require("./socket").init(server);
+io.on("connection", (socket) => {
+  console.log("Client connected.");
+});
