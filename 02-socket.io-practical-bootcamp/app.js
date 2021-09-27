@@ -35,7 +35,18 @@ const server = app.listen(3000);
 
 // Setup socket.io
 const io = require("./socket").init(server);
+
+// IO connection event
 io.on("connection", (socket) => {
   console.log("Socket connected on server side:", socket.id);
-});
 
+  // Emit event to the client
+  socket.emit("hello-client", {
+    message: "Hello client!",
+  });
+
+  // Listen to "hello-server" event from client side
+  socket.on("hello-server", function (data) {
+    console.log(data.message);
+  });
+});
