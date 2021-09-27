@@ -1,4 +1,4 @@
-const getChatBox = () => {
+const getChatBox = (data) => {
   const { chatboxLabel, chatboxMessagesId, chatboxInputId, chatboxId } = data;
 
   const chatboxContainer = document.createElement("div");
