@@ -7,7 +7,7 @@
     <title>socket.io Practical Bootcamp</title>
     <link rel="stylesheet" href="/css/styles.css" />
     <script src="/socket.io/socket.io.js" defer></script>
-    <script src="/js/main.js" defer></script>
+    <script type="module" src="/js/main.js" defer></script>
   </head>
   <body>
     <div class="main_container">
@@ -24,6 +24,10 @@
           >
             Enter chat page
           </button>
+        </div>
+        <div class="chat_page display_none">
+          <p class="username_label"></p>
+          <div class="chatboxes_container"></div>
         </div>
       </div>
     </div>
