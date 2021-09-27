@@ -1,4 +1,5 @@
 import store from "./store.js";
+import ui from "./ui.js";
 
 const nameInput = document.querySelector(".introduction_page_name_input");
 const chatPageButton = document.querySelector("#enter_chats_button");
@@ -8,7 +9,7 @@ nameInput.addEventListener("keyup", (event) => {
 });
 
 chatPageButton.addEventListener("click", () => {
-  console.log("Enter button pressed.", store.getUsername());
+  ui.goToChatPage();
 });
 
 // "http://localhost:3000/" is the server url to connect to
