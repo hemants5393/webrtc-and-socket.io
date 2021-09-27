@@ -121,7 +121,7 @@ select:focus {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(168.68deg, #0052c9 1.12%, #0a91db 100%);
+  background: linear-gradient(168.68deg, #01b16e 1.12%, #0adb49 100%);
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
 }
