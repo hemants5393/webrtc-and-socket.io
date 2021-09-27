@@ -9,12 +9,7 @@ const getChatBox = (data) => {
         <p class="chatbox_label">${chatboxLabel}</p>
     </div>
     <div class="messages_container" id="${chatboxMessagesId}">
-        <div class="message_container">
-            <p class="message_paragraph">
-            <span class="message_author">Hemant: </span>
-            Hello World!
-            </p>
-        </div>
+        
     </div>
     <div class="new_message_input_container">
         <input
@@ -29,6 +24,20 @@ const getChatBox = (data) => {
   return chatboxContainer;
 };
 
+const getGroupChatMessage = (data) => {
+  const { author, messageContent } = data;
+  const messageContainer = document.createElement("div");
+  chatboxContainer.classList.add("message_container");
+  chatboxContainer.innerHTML = `
+    <p class="message_paragraph">
+        <span class="message_author">${author}: </span>
+        ${messageContent}
+    </p>
+
+  `;
+};
+
 export default {
   getChatBox,
+  getGroupChatMessage,
 };
