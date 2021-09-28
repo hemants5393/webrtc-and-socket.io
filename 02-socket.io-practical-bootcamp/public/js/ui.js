@@ -89,6 +89,27 @@ const createNewUserChatbox = (peer) => {
   chatboxesContainer.appendChild(chatbox);
 
   // register event listeners for chatbox input to send a message to other user
+  const newMessageInput = document.getElementById(chatboxInputId);
+  newMessageInput.addEventListener("keydown", (event) => {
+    const key = event.key;
+    if (key === "Enter") {
+      const author = store.getUsername();
+      const messageContent = event.target.value;
+      const receiverSocketId = peer.socketId;
+      const authorSocketId = store.getSocketId();
+
+      const data = {
+        author,
+        messageContent,
+        receiverSocketId,
+        authorSocketId
+      };
+      
+      // Send message to socket.io server
+      socketHandler.sendDirectMessage(data);
+      newMessageInput.value = "";
+    }
+  });
 
   // push to active chatboxes new user box
   const activeChatboxes = store.getActiveChatboxes();

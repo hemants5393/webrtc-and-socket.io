@@ -42,12 +42,6 @@ io.on("connection", (socket) => {
   console.log("Socket connected on server side:", socket.id);
 
   // Listen to "group-chat-message" event from client side
-  socket.on("group-chat-message", (messageData) => {
-    // Emit event to all clients
-    io.emit("group-chat-message", messageData);
-  });
-
-  // Listen to "group-chat-message" event from client side
   socket.on("register-new-user", (userData) => {
     const { username } = userData;
 
@@ -57,6 +51,18 @@ io.on("connection", (socket) => {
     };
     connectedPeers = [...connectedPeers, newPeer];
     broadcastConnectedPeers();
+  });
+
+  // Listen to "group-chat-message" event from client side
+  socket.on("group-chat-message", (messageData) => {
+    // Emit event to all clients
+    io.emit("group-chat-message", messageData);
+  });
+
+  // Listen to "direct-message" event from client side
+  socket.on("direct-message", (data) => {
+    console.log("direct-message:", data);
+    // Emit event to client
   });
 
   // Listen to default "disconnect" event
