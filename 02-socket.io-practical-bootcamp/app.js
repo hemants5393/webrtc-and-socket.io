@@ -37,14 +37,32 @@ const server = app.listen(3000);
 const io = require("./socket").init(server);
 
 // IO connection event
+let connectedPeers = [];
 io.on("connection", (socket) => {
   console.log("Socket connected on server side:", socket.id);
 
   // Listen to "group-chat-message" event from client side
   socket.on("group-chat-message", (messageData) => {
-    console.log(messageData);
-
     // Emit event to all users
     io.emit("group-chat-message", messageData);
+  });
+
+  // Listen to "group-chat-message" event from client side
+  socket.on("register-new-user", (userData) => {
+    const { username } = userData;
+
+    const newPeer = {
+      username,
+      socketId: socket.id,
+    };
+    connectedPeers = [...connectedPeers, newPeer];
+    console.log("CPs:", connectedPeers);
+  });
+
+  // Listen to default "disconnect" event
+  socket.on("disconnect", (messageData) => {
+    connectedPeers = connectedPeers.filter(
+      (peer) => peer.socketId !== socket.id
+    );
   });
 });
