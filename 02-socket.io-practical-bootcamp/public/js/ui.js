@@ -1,5 +1,6 @@
 import store from "./store.js";
 import elements from "./elements.js";
+import socketHandler from "./socketHandler.js";
 
 const chatboxMessagesId = "group-chat-chatbox";
 const chatboxInputId = "group-chat-messages";
@@ -43,11 +44,8 @@ const createGroupChatBox = (username) => {
       const messageContent = event.target.value;
 
       // Send message to socket.io server
+      socketHandler.sendGroupChatMessage(author, messageContent);
       newMessageInput.value = "";
-      console.log({
-        author,
-        messageContent,
-      });
     }
   });
 };

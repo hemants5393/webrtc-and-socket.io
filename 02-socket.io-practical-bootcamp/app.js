@@ -40,13 +40,8 @@ const io = require("./socket").init(server);
 io.on("connection", (socket) => {
   console.log("Socket connected on server side:", socket.id);
 
-  // Emit event to the client
-  socket.emit("hello-client", {
-    message: "Hello client!",
-  });
-
-  // Listen to "hello-server" event from client side
-  socket.on("hello-server", function (data) {
-    console.log(data.message);
+  // Listen to "group-chat-message" event from client side
+  socket.on("group-chat-message", (messageData) => {
+    console.log(messageData);
   });
 });

@@ -9,18 +9,19 @@ const connectToSocketIoServer = () => {
   socket.on("connect", () => {
     console.log("Socket connected on client side:", socket.id);
   });
+};
 
-  // Listen to "hello-client" event from server side
-  socket.on("hello-client", function (data) {
-    console.log(data.message);
-  });
+const sendGroupChatMessage = (author, messageContent) => {
+  const messageData = {
+    author,
+    messageContent,
+  };
 
   // Emit event to the client
-  socket.emit("hello-server", {
-    message: "Hello Server!",
-  });
+  socket.emit("group-chat-message", messageData);
 };
 
 export default {
   connectToSocketIoServer,
+  sendGroupChatMessage,
 };
