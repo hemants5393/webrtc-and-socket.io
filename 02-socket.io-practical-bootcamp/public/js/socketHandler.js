@@ -1,3 +1,4 @@
+import store from "./store.js";
 import ui from "./ui.js";
 
 // "http://localhost:3000/" is the socket.io server url
@@ -10,6 +11,7 @@ const connectToSocketIoServer = () => {
   // Listen to default "connect" event
   socket.on("connect", () => {
     console.log("Socket connected on client side:", socket.id);
+    registerActiveSession();
   });
 
   // Listen to "group-chat-message" event from server side
@@ -24,8 +26,17 @@ const sendGroupChatMessage = (author, messageContent) => {
     messageContent,
   };
 
-  // Emit event to the client
+  // Emit event to the server
   socket.emit("group-chat-message", messageData);
+};
+
+const registerActiveSession = () => {
+  const userData = {
+    username: store.getUsername(),
+  };
+
+  // Emit event to the server
+  socket.emit("register-new-user", userData);
 };
 
 export default {

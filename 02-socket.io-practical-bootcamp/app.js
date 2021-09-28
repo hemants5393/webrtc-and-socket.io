@@ -43,7 +43,7 @@ io.on("connection", (socket) => {
 
   // Listen to "group-chat-message" event from client side
   socket.on("group-chat-message", (messageData) => {
-    // Emit event to all users
+    // Emit event to all clients
     io.emit("group-chat-message", messageData);
   });
 
@@ -60,9 +60,10 @@ io.on("connection", (socket) => {
   });
 
   // Listen to default "disconnect" event
-  socket.on("disconnect", (messageData) => {
+  socket.on("disconnect", () => {
     connectedPeers = connectedPeers.filter(
       (peer) => peer.socketId !== socket.id
     );
+    console.log("New users:", connectedPeers);
   });
 });
