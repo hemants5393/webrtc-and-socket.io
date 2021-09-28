@@ -33,8 +33,8 @@ const getGroupChatMessage = (data) => {
         <span class="message_author">${author}: </span>
         ${messageContent}
     </p>
-
   `;
+  return messageContainer;
 };
 
 export default {

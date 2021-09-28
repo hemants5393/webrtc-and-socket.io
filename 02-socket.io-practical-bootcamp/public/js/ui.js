@@ -50,6 +50,14 @@ const createGroupChatBox = (username) => {
   });
 };
 
+const appendGroupChatMessage = (data) => {
+  const groupChatboxMessagesContainer =
+    document.getElementById(chatboxMessagesId);
+  const chatMessage = elements.getGroupChatMessage(data);
+  groupChatboxMessagesContainer.appendChild(chatMessage);
+};
+
 export default {
   goToChatPage,
+  appendGroupChatMessage,
 };

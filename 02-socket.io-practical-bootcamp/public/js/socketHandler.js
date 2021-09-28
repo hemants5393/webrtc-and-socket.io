@@ -1,3 +1,5 @@
+import ui from "./ui.js";
+
 // "http://localhost:3000/" is the socket.io server url
 const SOCKET_SERVER_URL = "http://localhost:3000/";
 let socket = null;
@@ -12,7 +14,7 @@ const connectToSocketIoServer = () => {
 
   // Listen to "group-chat-message" event from server side
   socket.on("group-chat-message", (messageData) => {
-    console.log(`${messageData.author}: ${messageData.messageContent}`);
+    ui.appendGroupChatMessage(messageData);
   });
 };
 
