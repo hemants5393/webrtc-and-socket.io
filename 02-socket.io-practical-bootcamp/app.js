@@ -43,5 +43,7 @@ io.on("connection", (socket) => {
   // Listen to "group-chat-message" event from client side
   socket.on("group-chat-message", (messageData) => {
     console.log(messageData);
+
+    socket.broadcast.emit("group-chat-message", messageData);
   });
 });
