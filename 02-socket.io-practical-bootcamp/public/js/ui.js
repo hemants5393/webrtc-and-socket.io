@@ -135,9 +135,27 @@ const appendDirectChatMessage = (messageData) => {
   }
 };
 
+const removeChatBoxOfDisconnectedPeer = (data) => {
+  const { socketIdOfDisconnectedPeer } = data;
+
+  // Remove active chatbox details from the store
+  const activeChatboxes = store.getActiveChatboxes();
+  const newActiveChatboxes = activeChatboxes.filter(
+    (chatbox) => chatbox.socketId !== socketIdOfDisconnectedPeer
+  );
+  store.setActiveChatboxes(newActiveChatboxes);
+
+  // Remove chatbox from chatboxes container in HTML DOM
+  const chatbox = document.getElementById(socketIdOfDisconnectedPeer);
+  if (chatbox) {
+    chatbox.parentElement.removeChild(chatbox);
+  }
+};
+
 export default {
   goToChatPage,
   appendGroupChatMessage,
   updateActiveChatboxes,
   appendDirectChatMessage,
+  removeChatBoxOfDisconnectedPeer,
 };

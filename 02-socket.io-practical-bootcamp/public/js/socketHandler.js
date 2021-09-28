@@ -25,6 +25,11 @@ const connectToSocketIoServer = () => {
     ui.updateActiveChatboxes(data);
   });
 
+  // Listen to "peer-disconnected" event from server side
+  socket.on("peer-disconnected", (data) => {
+    ui.removeChatBoxOfDisconnectedPeer(data);
+  });
+
   // Listen to "direct-message" event from server side
   socket.on("direct-message", (data) => {
     ui.appendDirectChatMessage(data);

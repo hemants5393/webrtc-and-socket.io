@@ -87,6 +87,7 @@ io.on("connection", (socket) => {
       (peer) => peer.socketId !== socket.id
     );
     broadcastConnectedPeers();
+    broadcastDisconnectedPeer(socket.id);
   });
 });
 
@@ -96,4 +97,12 @@ const broadcastConnectedPeers = () => {
   };
   // Emit event to all clients
   io.emit("active-peers", data);
+};
+
+const broadcastDisconnectedPeer = (socketId) => {
+  const data = {
+    socketIdOfDisconnectedPeer: socketId
+  };
+  // Emit event to all clients
+  io.emit("peer-disconnected", data);
 };
