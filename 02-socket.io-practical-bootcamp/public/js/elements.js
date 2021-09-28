@@ -27,8 +27,8 @@ const getChatBox = (data) => {
 const getGroupChatMessage = (data) => {
   const { author, messageContent } = data;
   const messageContainer = document.createElement("div");
-  chatboxContainer.classList.add("message_container");
-  chatboxContainer.innerHTML = `
+  messageContainer.classList.add("message_container");
+  messageContainer.innerHTML = `
     <p class="message_paragraph">
         <span class="message_author">${author}: </span>
         ${messageContent}

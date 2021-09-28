@@ -49,7 +49,6 @@ const createGroupChatBox = (username) => {
         messageContent,
       });
     }
-    store.setUsername(event.target.value);
   });
 };
 
