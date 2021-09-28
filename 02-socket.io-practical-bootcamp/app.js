@@ -61,7 +61,23 @@ io.on("connection", (socket) => {
 
   // Listen to "direct-message" event from client side
   socket.on("direct-message", (data) => {
-    console.log("direct-message:", data);
+    const { receiverSocketId } = data;
+    const connectedPeer = connectedPeers.find(
+      (peer) => peer.socketId === receiverSocketId
+    );
+    if(connectedPeer) {
+      const authorData = {
+        ...data,
+        isAuthor: true
+      }
+
+      // Emit event with message to sender client
+      socket.emit("direct-message", authorData);
+
+      // Emit event with message to receiver client
+      io.to(receiverSocketId).emit("direct-message", data);
+    }
+
     // Emit event to client
   });
 

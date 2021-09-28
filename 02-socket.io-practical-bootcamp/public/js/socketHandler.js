@@ -24,6 +24,11 @@ const connectToSocketIoServer = () => {
   socket.on("active-peers", (data) => {
     ui.updateActiveChatboxes(data);
   });
+
+  // Listen to "direct-message" event from server side
+  socket.on("direct-message", (data) => {
+    console.log("direct-message:", data);
+  });
 };
 
 const registerActiveSession = () => {
