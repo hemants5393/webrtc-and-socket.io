@@ -44,6 +44,7 @@ io.on("connection", (socket) => {
   socket.on("group-chat-message", (messageData) => {
     console.log(messageData);
 
-    socket.broadcast.emit("group-chat-message", messageData);
+    // Emit event to all users
+    io.emit("group-chat-message", messageData);
   });
 });
