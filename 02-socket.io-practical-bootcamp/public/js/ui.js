@@ -58,7 +58,28 @@ const appendGroupChatMessage = (data) => {
 };
 
 const updateActiveChatboxes = (data) => {
-  // updateActiveChatboxes logic
+  const { connectedPeers } = data;
+  connectedPeers.forEach((peer) => {
+    createNewUserChatbox(peer);
+  });
+};
+
+const createNewUserChatbox = (peer) => {
+  const chatboxId = peer.socketId;
+  const chatboxMessagesId = `${peer.socketId}-messages`;
+  const chatboxInputId = `${peer.socketId}-input`;
+  const data = {
+    chatboxLabel: peer.username,
+    chatboxMessagesId,
+    chatboxInputId,
+    chatboxId,
+  };
+
+  const chatbox = elements.getChatBox(data);
+  const chatboxesContainer = document.querySelector(".chatboxes_container");
+  chatboxesContainer.appendChild(chatbox);
+
+  // register event listeners for chatbox input to send a message to other user
 };
 
 export default {
