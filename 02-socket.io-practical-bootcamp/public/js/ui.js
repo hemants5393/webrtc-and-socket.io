@@ -102,9 +102,9 @@ const createNewUserChatbox = (peer) => {
         author,
         messageContent,
         receiverSocketId,
-        authorSocketId
+        authorSocketId,
       };
-      
+
       // Send message to socket.io server
       socketHandler.sendDirectMessage(data);
       newMessageInput.value = "";
@@ -117,8 +117,27 @@ const createNewUserChatbox = (peer) => {
   store.setActiveChatboxes(newActiveChatboxes);
 };
 
+const appendDirectChatMessage = (messageData) => {
+  const { author, messageContent, authorSocketId, isAuthor, receiverSocketId } =
+    messageData;
+  const messagesContainer = isAuthor
+    ? document.getElementById(`${receiverSocketId}-messages`)
+    : document.getElementById(`${authorSocketId}-messages`);
+
+  if (messagesContainer) {
+    const data = {
+      author,
+      messageContent,
+      alignRight: isAuthor ? true : false,
+    };
+    const message = elements.getDirectChatMessage(data);
+    messagesContainer.appendChild(message);
+  }
+};
+
 export default {
   goToChatPage,
   appendGroupChatMessage,
   updateActiveChatboxes,
+  appendDirectChatMessage,
 };

@@ -27,7 +27,7 @@ const connectToSocketIoServer = () => {
 
   // Listen to "direct-message" event from server side
   socket.on("direct-message", (data) => {
-    console.log("direct-message:", data);
+    ui.appendDirectChatMessage(data);
   });
 };
 
@@ -54,8 +54,6 @@ const sendDirectMessage = (data) => {
   // Emit event to the server
   socket.emit("direct-message", data);
 };
-
-
 
 export default {
   connectToSocketIoServer,
