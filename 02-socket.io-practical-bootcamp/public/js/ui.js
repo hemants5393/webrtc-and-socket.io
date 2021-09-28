@@ -59,8 +59,17 @@ const appendGroupChatMessage = (data) => {
 
 const updateActiveChatboxes = (data) => {
   const { connectedPeers } = data;
+  const userSocketId = store.getSocketId();
+
   connectedPeers.forEach((peer) => {
-    createNewUserChatbox(peer);
+    const activeChatboxes = store.getActiveChatboxes();
+    const activeChatbox = activeChatboxes.find(
+      (chatbox) => peer.socketId === chatbox.socketId
+    );
+
+    if (!activeChatbox && peer.socketId !== userSocketId) {
+      createNewUserChatbox(peer);
+    }
   });
 };
 
@@ -80,6 +89,11 @@ const createNewUserChatbox = (peer) => {
   chatboxesContainer.appendChild(chatbox);
 
   // register event listeners for chatbox input to send a message to other user
+
+  // push to active chatboxes new user box
+  const activeChatboxes = store.getActiveChatboxes();
+  const newActiveChatboxes = [...activeChatboxes, peer];
+  store.setActiveChatboxes(newActiveChatboxes);
 };
 
 export default {

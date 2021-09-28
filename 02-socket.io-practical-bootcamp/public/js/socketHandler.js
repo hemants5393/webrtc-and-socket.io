@@ -11,6 +11,7 @@ const connectToSocketIoServer = () => {
   // Listen to default "connect" event
   socket.on("connect", () => {
     console.log("Socket connected on client side:", socket.id);
+    store.setSocketId(socket.id);
     registerActiveSession();
   });
 
