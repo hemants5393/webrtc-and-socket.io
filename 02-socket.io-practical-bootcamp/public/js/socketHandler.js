@@ -18,6 +18,11 @@ const connectToSocketIoServer = () => {
   socket.on("group-chat-message", (messageData) => {
     ui.appendGroupChatMessage(messageData);
   });
+
+  // Listen to "active-peers" event from server side
+  socket.on("active-peers", (data) => {
+    ui.updateActiveChatboxes(data);
+  });
 };
 
 const sendGroupChatMessage = (author, messageContent) => {

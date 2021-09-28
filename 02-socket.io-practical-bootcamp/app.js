@@ -56,7 +56,7 @@ io.on("connection", (socket) => {
       socketId: socket.id,
     };
     connectedPeers = [...connectedPeers, newPeer];
-    console.log("CPs:", connectedPeers);
+    broadcastConnectedPeers();
   });
 
   // Listen to default "disconnect" event
@@ -64,6 +64,14 @@ io.on("connection", (socket) => {
     connectedPeers = connectedPeers.filter(
       (peer) => peer.socketId !== socket.id
     );
-    console.log("New users:", connectedPeers);
+    broadcastConnectedPeers();
   });
 });
+
+const broadcastConnectedPeers = () => {
+  const data = {
+    connectedPeers,
+  };
+  // Emit event to all clients
+  io.emit("active-peers", data);
+};

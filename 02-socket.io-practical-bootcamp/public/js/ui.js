@@ -57,7 +57,12 @@ const appendGroupChatMessage = (data) => {
   groupChatboxMessagesContainer.appendChild(chatMessage);
 };
 
+const updateActiveChatboxes = (data) => {
+  // updateActiveChatboxes logic
+};
+
 export default {
   goToChatPage,
   appendGroupChatMessage,
+  updateActiveChatboxes,
 };
