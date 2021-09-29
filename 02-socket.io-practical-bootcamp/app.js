@@ -82,8 +82,14 @@ io.on("connection", (socket) => {
       // Emit event with message to receiver client
       io.to(receiverSocketId).emit("direct-message", data);
     }
+  });
 
-    // Emit event to client
+  // Listen to "room-message" event from client side
+  socket.on("room-message", (data) => {
+    const { roomId } = data;
+
+      // Emit event with message to receiver client room
+      io.to(roomId).emit("room-message", data);
   });
 
   // Listen to default "disconnect" event

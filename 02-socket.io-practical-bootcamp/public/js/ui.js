@@ -171,6 +171,28 @@ const createRoomChatBox = () => {
   const chatbox = elements.getChatBox(data);
   const chatboxesContainer = document.querySelector(".chatboxes_container");
   chatboxesContainer.appendChild(chatbox);
+
+  // register event listeners for room chatbox input
+  const newMessageInput = document.getElementById(chatboxInputId);
+  newMessageInput.addEventListener("keydown", (event) => {
+    const key = event.key;
+    if (key === "Enter") {
+      const author = store.getUsername();
+      const messageContent = event.target.value;
+      const authorSocketId = store.getSocketId();
+
+      const data = {
+        author,
+        messageContent,
+        roomId,
+        authorSocketId,
+      };
+
+      // Send message to socket.io server
+      socketHandler.sendRoomMessage(data);
+      newMessageInput.value = "";
+    }
+  });
 };
 
 export default {

@@ -34,6 +34,11 @@ const connectToSocketIoServer = () => {
   socket.on("direct-message", (data) => {
     ui.appendDirectChatMessage(data);
   });
+
+  // Listen to "room-message" event from server side
+  socket.on("room-message", (data) => {
+    console.log("room:", data);
+  });
 };
 
 const registerActiveSession = () => {
@@ -61,8 +66,14 @@ const sendDirectMessage = (data) => {
   socket.emit("direct-message", data);
 };
 
+const sendRoomMessage = (data) => {
+  // Emit event to the server
+  socket.emit("room-message", data);
+};
+
 export default {
   connectToSocketIoServer,
   sendGroupChatMessage,
   sendDirectMessage,
+  sendRoomMessage
 };
