@@ -43,12 +43,17 @@ io.on("connection", (socket) => {
 
   // Listen to "group-chat-message" event from client side
   socket.on("register-new-user", (userData) => {
-    const { username } = userData;
+    const { username, roomId } = userData;
 
     const newPeer = {
       username,
+      roomId,
       socketId: socket.id,
     };
+
+    // Join socket.io Room
+    socket.join(roomId);
+
     connectedPeers = [...connectedPeers, newPeer];
     broadcastConnectedPeers();
   });
@@ -65,11 +70,11 @@ io.on("connection", (socket) => {
     const connectedPeer = connectedPeers.find(
       (peer) => peer.socketId === receiverSocketId
     );
-    if(connectedPeer) {
+    if (connectedPeer) {
       const authorData = {
         ...data,
-        isAuthor: true
-      }
+        isAuthor: true,
+      };
 
       // Emit event with message to sender client
       socket.emit("direct-message", authorData);
@@ -101,7 +106,7 @@ const broadcastConnectedPeers = () => {
 
 const broadcastDisconnectedPeer = (socketId) => {
   const data = {
-    socketIdOfDisconnectedPeer: socketId
+    socketIdOfDisconnectedPeer: socketId,
   };
   // Emit event to all clients
   io.emit("peer-disconnected", data);

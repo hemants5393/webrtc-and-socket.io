@@ -39,6 +39,7 @@ const connectToSocketIoServer = () => {
 const registerActiveSession = () => {
   const userData = {
     username: store.getUsername(),
+    roomId: store.getRoomId(),
   };
 
   // Emit event to the server
