@@ -37,7 +37,7 @@ const connectToSocketIoServer = () => {
 
   // Listen to "room-message" event from server side
   socket.on("room-message", (data) => {
-    console.log("room:", data);
+    ui.appendRoomChatMessage(data);
   });
 };
 

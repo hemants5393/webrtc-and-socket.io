@@ -195,6 +195,19 @@ const createRoomChatBox = () => {
   });
 };
 
+const appendRoomChatMessage = (messageData) => {
+  const { roomId } = messageData;
+  const chatboxMessagesId = `${roomId}-messages`;
+
+  const roomChatboxMessagesContainer =
+    document.getElementById(chatboxMessagesId);
+
+  if (roomChatboxMessagesContainer) {
+    const message = elements.getGroupChatMessage(messageData);
+    roomChatboxMessagesContainer.appendChild(message);
+  }
+};
+
 export default {
   goToChatPage,
   appendGroupChatMessage,
@@ -202,4 +215,5 @@ export default {
   appendDirectChatMessage,
   removeChatBoxOfDisconnectedPeer,
   createRoomChatBox,
+  appendRoomChatMessage,
 };
