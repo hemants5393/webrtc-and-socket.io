@@ -1,3 +1,7 @@
+body {
+  font-family: cursive;
+}
+
 ::placeholder {
   color: white;
 }
@@ -30,7 +34,7 @@ input:focus {
 }
 
 .introduction_page_box {
-  width: 30%;
+  width: 40%;
   height: 50%;
   border-radius: 8px;
   background: linear-gradient(168.68deg, #01b16e 1.12%, #0adb49 100%);
@@ -50,11 +54,12 @@ input:focus {
   color: white;
   font-size: 16px;
   padding: 0 10px;
+  font-family: cursive;
 }
 
 .introduction_page_enter_chat_button {
   margin-top: 50px;
-  width: 50%;
+  width: 60%;
   height: 50px;
   border-radius: 15px;
   background: #ffffff;
@@ -62,17 +67,25 @@ input:focus {
   font-size: 20px;
   border: none;
   transition: 0.3s;
+  font-family: cursive;
 }
 
 .introduction_page_room_select {
-  width: 50%;
-  height: 55px;
+  width: 60%;
+  height: 50px;
   border-radius: 15px;
   background-color: #ffffff;
   color: #ff9519;
   font-size: 20px;
   border: none;
-  margin-top: 50px;
+  margin-top: 10px;
+  cursor: pointer;
+  font-family: cursive;
+}
+
+.select_room_label {
+  color: white;
+  margin-top: 40px;
 }
 
 select:focus {
