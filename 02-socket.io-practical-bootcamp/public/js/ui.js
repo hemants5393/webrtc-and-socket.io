@@ -17,6 +17,7 @@ const goToChatPage = () => {
   const username = store.getUsername();
   updateUsername(username);
   createGroupChatBox();
+  createRoomChatBox();
 };
 
 const updateUsername = (username) => {
@@ -152,10 +153,31 @@ const removeChatBoxOfDisconnectedPeer = (data) => {
   }
 };
 
+const createRoomChatBox = () => {
+  const roomId = store.getRoomId();
+
+  const chatboxLabel = roomId;
+  const chatboxId = roomId;
+  const chatboxMessagesId = `${roomId}-messages`;
+  const chatboxInputId = `${roomId}-input`;
+
+  const data = {
+    chatboxLabel,
+    chatboxId,
+    chatboxMessagesId,
+    chatboxInputId,
+  };
+
+  const chatbox = elements.getChatBox(data);
+  const chatboxesContainer = document.querySelector(".chatboxes_container");
+  chatboxesContainer.appendChild(chatbox);
+};
+
 export default {
   goToChatPage,
   appendGroupChatMessage,
   updateActiveChatboxes,
   appendDirectChatMessage,
   removeChatBoxOfDisconnectedPeer,
+  createRoomChatBox,
 };
