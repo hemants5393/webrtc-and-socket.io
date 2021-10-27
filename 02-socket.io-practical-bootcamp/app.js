@@ -36,12 +36,31 @@ const server = app.listen(3000);
 // Setup socket.io
 const io = require("./socket").init(server);
 
+// Namespace code
+const orders = io.of("/orders");
+const users = io.of("/users");
+orders.on("connection", (socket) => {
+  console.log("someone connected server side (orders namespace):", socket.id);
+  // Listen to "new-user" event from client side
+  socket.on("new-user", (messageData) => {
+    // Emit event to all clients
+    console.log(
+      "Message received on server side (orders namespace):",
+      messageData
+    );
+    io.emit("new-user", messageData);
+  });
+});
+users.on("connection", (socket) => {
+  console.log("someone connected server side (users namespace):", socket.id);
+});
+
 // IO connection event
 let connectedPeers = [];
 io.on("connection", (socket) => {
   console.log("Socket connected on server side:", socket.id);
 
-  // Listen to "group-chat-message" event from client side
+  // Listen to "register-new-user" event from client side
   socket.on("register-new-user", (userData) => {
     const { username, roomId } = userData;
 
@@ -88,8 +107,8 @@ io.on("connection", (socket) => {
   socket.on("room-message", (data) => {
     const { roomId } = data;
 
-      // Emit event with message to receiver client room
-      io.to(roomId).emit("room-message", data);
+    // Emit event with message to receiver client room
+    io.to(roomId).emit("room-message", data);
   });
 
   // Listen to default "disconnect" event

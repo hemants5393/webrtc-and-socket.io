@@ -4,9 +4,11 @@ import ui from "./ui.js";
 // "http://localhost:3000/" is the socket.io server url
 const SOCKET_SERVER_URL = "http://localhost:3000/";
 let socket = null;
+let orderSocket = null;
+let userSocket = null;
 
 const connectToSocketIoServer = () => {
-  socket = io(SOCKET_SERVER_URL);
+  socket = io(SOCKET_SERVER_URL); // the main namespace
 
   // Listen to default "connect" event
   socket.on("connect", () => {
@@ -38,6 +40,37 @@ const connectToSocketIoServer = () => {
   // Listen to "room-message" event from server side
   socket.on("room-message", (data) => {
     ui.appendRoomChatMessage(data);
+  });
+
+  /* Namespace code */
+  orderSocket = io("http://localhost:3000/orders"); // the "orders" namespace
+  userSocket = io("http://localhost:3000/users"); // the "users" namespace
+
+  // Listen to "connect" event on "orders" namespace
+  orderSocket.on("connect", () => {
+    console.log(
+      "Socket connected on client side (orders namespace):",
+      orderSocket.id
+    );
+    // Emit event to the server
+    orderSocket.emit("new-user", "hello!");
+    // Listen to "new-user" event from server side
+    socket.on("new-user", (data) => {
+      console.log(
+        "Message received on client side (orders namespace):",
+        data
+      );
+    });
+  });
+
+  // Listen to "connect" event on "users" namespace
+  userSocket.on("connect", () => {
+    console.log(
+      "Socket connected on client side (users namespace):",
+      userSocket.id
+    );
+    // Emit event to the server
+    userSocket.emit("new-user", userSocket.id);
   });
 };
 
@@ -75,5 +108,5 @@ export default {
   connectToSocketIoServer,
   sendGroupChatMessage,
   sendDirectMessage,
-  sendRoomMessage
+  sendRoomMessage,
 };
