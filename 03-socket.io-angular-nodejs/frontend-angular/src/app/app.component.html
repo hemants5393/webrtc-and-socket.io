@@ -1,0 +1,15 @@
+<router-outlet></router-outlet>
+<div>My Chat App works!!!</div>
+<div *ngIf="messageList?.length">
+  <div *ngFor="let message of messageList">
+    <li>
+      {{ message }}
+    </li>
+  </div>
+</div>
+
+<input
+  [(ngModel)]="newMessage"
+  (keyup)="$event.keyCode == 13 && sendMessage()"
+/>
+<button (click)="sendMessage()">Send Message</button>

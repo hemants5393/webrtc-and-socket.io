@@ -5,7 +5,7 @@ module.exports = {
     // Setup socket.io with explicitly enabling CORS
     io = require("socket.io")(httpServer, {
       cors: {
-        origin: "http://localhost:3000",
+        origin: "http://localhost:4200",
         methods: ["GET", "POST"],
       },
     });
