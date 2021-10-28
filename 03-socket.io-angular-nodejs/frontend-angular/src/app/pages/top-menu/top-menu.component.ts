@@ -14,16 +14,19 @@ export class TopMenuComponent implements OnInit {
   ngOnInit(): void {
     this.items = [
       {
-        label: 'Home',
+        label: 'My Chat App',
         icon: 'pi pi-fw pi-home',
+        routerLink: ['/home'],
       },
       {
         label: 'Individual Chat',
         icon: 'pi pi-fw pi-user',
+        routerLink: ['/individual-chat'],
       },
       {
         label: 'Group Chat',
         icon: 'pi pi-fw pi-users',
+        routerLink: ['/group-chat'],
       },
     ];
   }
