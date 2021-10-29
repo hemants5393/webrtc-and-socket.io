@@ -1,22 +1,18 @@
 :host::ng-deep {
-    .p-menubar {
-      .p-menuitem-link-active {
-        background: lightgrey;
-        border-radius: 10px !important;
-      }
-
-      .p-menuitem-link:focus {
-        box-shadow: none !important;
+  .p-menubar {
+    .p-menuitem-link-active {
+      background: lightgrey;
+      border-radius: 10px !important;
     }
 
-      ul li {
-        margin-left: 5px;
-        margin-right: 5px;
-      }
-
-      ul li a:hover {
-        background: lightgrey !important;
-        border-radius: 10px !important;
-      }
+    ul li {
+      margin-left: 5px;
+      margin-right: 5px;
     }
+
+    ul li a:hover {
+      background: lightgrey !important;
+      border-radius: 10px !important;
+    }
+  }
 }

@@ -1,1 +1,29 @@
-<p>individual-chat works!</p>
+<div class="chat-wrapper">
+  <div class="left-side">
+    <p-orderList
+      header="Available users"
+      [value]="users"
+      filterBy="name"
+      filterPlaceholder="Filter by user name"
+    >
+      <ng-template let-user pTemplate="item">
+        <div class="user-div">
+          <div class="image-container">
+            <img
+              src="assets/images/sample-user.jpg"
+              [alt]="user.name"
+              class="user-image"
+            />
+          </div>
+          <div class="user-detail">
+            <h5 class="p-mb-2">{{ user.name }}</h5>
+          </div>
+        </div>
+      </ng-template>
+    </p-orderList>
+  </div>
+  <div class="right-side">
+    <div class="right-side-header">Right side</div>
+    <div class="right-side-chat-area">Right side</div>
+  </div>
+</div>
