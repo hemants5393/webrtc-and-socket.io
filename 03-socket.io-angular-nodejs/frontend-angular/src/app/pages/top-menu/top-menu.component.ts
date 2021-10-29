@@ -17,16 +17,19 @@ export class TopMenuComponent implements OnInit {
         label: 'My Chat App',
         icon: 'pi pi-fw pi-home',
         routerLink: ['/home'],
+        routerLinkActiveOptions: { exact: true },
       },
       {
         label: 'Individual Chat',
         icon: 'pi pi-fw pi-user',
         routerLink: ['/individual-chat'],
+        routerLinkActiveOptions: { exact: true },
       },
       {
         label: 'Group Chat',
         icon: 'pi pi-fw pi-users',
         routerLink: ['/group-chat'],
+        routerLinkActiveOptions: { exact: true },
       },
     ];
   }
