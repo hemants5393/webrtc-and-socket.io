@@ -10,9 +10,18 @@ const server = app.listen(3000);
 // Setup socket.io
 const io = require("./socket").init(server);
 
+const individualUsers = [];
+
 // IO connection event
 io.on("connection", (socket) => {
-  console.log("Socket connected on server:", socket.id);
+  /* Logic for Individual Chat begins here */
+  socket.on("register-new-individual-user", (user) => {
+    console.log(`Individual user connected: ${user.name} (${user.id}).`);
+    socket.emit("new-registered-user", user); // Emit to only sender client
+    individualUsers.push(user);
+    io.emit("individual-users", individualUsers); // Emit event to all connected clients
+  });
+  /* Logic for Individual Chat ends here */
 
   // Listen to "hello" event from client side
   socket.on("hello", (message) => {
