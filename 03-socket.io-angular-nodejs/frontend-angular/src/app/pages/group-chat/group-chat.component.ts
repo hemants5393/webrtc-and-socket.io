@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ChatService } from 'src/app/services/chat.service';
 
 @Component({
@@ -6,10 +6,11 @@ import { ChatService } from 'src/app/services/chat.service';
   templateUrl: './group-chat.component.html',
   styleUrls: ['./group-chat.component.scss']
 })
-export class GroupChatComponent implements OnInit {
+export class GroupChatComponent implements OnInit, OnDestroy {
 
   public newMessage: string = '';
   public messageList: string[] = [];
+  public isLoggedIn = false;
 
   constructor(private chatService: ChatService) {}
 
@@ -22,6 +23,10 @@ export class GroupChatComponent implements OnInit {
   public sendMessage(): void {
     this.chatService.sendMessage(this.newMessage);
     this.newMessage = '';
+  }
+
+  ngOnDestroy(): void {
+    this.isLoggedIn = false;
   }
 
 }

@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-individual-chat',
   templateUrl: './individual-chat.component.html',
   styleUrls: ['./individual-chat.component.scss'],
 })
-export class IndividualChatComponent implements OnInit {
+export class IndividualChatComponent implements OnInit, OnDestroy {
   public users: object[] = [];
   public header = 'Available users';
   public filterBy = 'true';
   public filterPlaceholder = 'Filter by user name';
+  public isLoggedIn = false;
   constructor() {}
 
   ngOnInit(): void {
@@ -38,5 +39,13 @@ export class IndividualChatComponent implements OnInit {
       { name: 'Carl' },
       { name: 'Judith' },
     ];
+  }
+
+  public enterIndividualChat(): void {
+    this.isLoggedIn = true;
+  }
+
+  ngOnDestroy(): void {
+    this.isLoggedIn = false;
   }
 }
