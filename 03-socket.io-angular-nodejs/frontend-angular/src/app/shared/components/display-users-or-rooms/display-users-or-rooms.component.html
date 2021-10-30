@@ -1,0 +1,21 @@
+<p-orderList
+  [header]="header"
+  [value]="list"
+  [filterBy]="filterBy"
+  [filterPlaceholder]="filterPlaceholder"
+>
+  <ng-template let-listItem pTemplate="item">
+    <div class="listItem-div">
+      <div class="image-container">
+        <img
+          src="assets/images/sample-user.jpg"
+          [alt]="listItem.name"
+          class="listItem-image"
+        />
+      </div>
+      <div class="listItem-detail">
+        <h5 class="p-mb-2">{{ listItem.name }}</h5>
+      </div>
+    </div>
+  </ng-template>
+</p-orderList>

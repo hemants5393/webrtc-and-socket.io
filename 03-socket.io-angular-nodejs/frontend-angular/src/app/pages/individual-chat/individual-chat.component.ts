@@ -7,9 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IndividualChatComponent implements OnInit {
   public users: object[] = [];
+  public header = 'Available users';
+  public filterBy = 'true';
+  public filterPlaceholder = 'Filter by user name';
   constructor() {}
 
   ngOnInit(): void {
+    this.initializeDataForUsers();
+  }
+
+  private initializeDataForUsers(): void {
     this.users = [
       { name: 'Hemant' },
       { name: 'John' },
