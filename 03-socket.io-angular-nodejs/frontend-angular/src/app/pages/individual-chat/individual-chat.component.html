@@ -36,11 +36,18 @@
       [list]="users"
       [filterBy]="filterBy"
       [filterPlaceholder]="filterPlaceholder"
+      (listItemClickedEvent)="listItemClicked($event)"
+      [selectedUser]="selectedUser"
     ></app-display-users-or-rooms>
   </div>
   <div class="right-side">
     <div class="right-side-header">
-      You are chatting with Sample User
+      <span *ngIf="!isUserSelected" class="right-side-header-text">Select a user (if available) from left panel to chat with.</span>
+      <span *ngIf="isUserSelected" class="right-side-header-text">You are chatting with:
+        <span class="user-selected">
+          {{selectedUser?.name}}
+        </span>
+      </span>
       <span class="current-user">
         <img src="assets/images/sample-user.jpg" class="listItem-image" />
         {{ user?.name }}
@@ -54,6 +61,6 @@
         ></button>
       </span>
     </div>
-    <div class="right-side-chat-area">Right side</div>
+    <div class="right-side-chat-area"></div>
   </div>
 </div>

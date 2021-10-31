@@ -8,13 +8,15 @@ import { IndividualChatService } from 'src/app/services/individual-chat.service'
   styleUrls: ['./individual-chat.component.scss'],
 })
 export class IndividualChatComponent implements OnInit, OnDestroy {
-  public user: User | undefined;
-  public users: Array<object> = [];
+  public user: User | null = null;
+  public users: Array<User> = [];
   public userName = '';
   public isLoggedIn = false;
   public header = 'Available users';
-  public filterBy = 'true';
+  public filterBy = 'name';
   public filterPlaceholder = 'Filter by user name';
+  public isUserSelected = false;
+  public selectedUser: User | null = null;
   constructor(private readonly individualChatService: IndividualChatService) {}
 
   ngOnInit(): void {
@@ -40,7 +42,9 @@ export class IndividualChatComponent implements OnInit, OnDestroy {
         this.isLoggedIn = true;
         this.user = user;
       } else {
+        console.log('User disconnected on client:', this.user);
         this.isLoggedIn = false;
+        this.user = null;
         this.userName = '';
       }
     });
@@ -49,7 +53,19 @@ export class IndividualChatComponent implements OnInit, OnDestroy {
   private subscribeToAllUsers(): void {
     this.individualChatService.getAllUsers().subscribe((users: Array<User>) => {
       this.users = users.filter((user) => user.id !== this.user?.id);
+      const lastSelectedUser = this.users.find(
+        (user) => user.id === this.selectedUser?.id
+      );
+      if (!lastSelectedUser) {
+        this.selectedUser = null;
+        this.isUserSelected = false;
+      }
     });
+  }
+
+  public listItemClicked(user: User): void {
+    this.isUserSelected = true;
+    this.selectedUser = user;
   }
 
   ngOnDestroy(): void {

@@ -3,6 +3,7 @@
   [value]="list"
   [filterBy]="filterBy"
   [filterPlaceholder]="filterPlaceholder"
+  (selectionChange)="onListItemClicked($event)"
 >
   <ng-template let-listItem pTemplate="item">
     <div class="listItem-div">
