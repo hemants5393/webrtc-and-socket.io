@@ -55,7 +55,7 @@ const connectToSocketIoServer = () => {
     // Emit event to the server
     orderSocket.emit("new-user", "hello!");
     // Listen to "new-user" event from server side
-    socket.on("new-user", (data) => {
+    orderSocket.on("new-user", (data) => {
       console.log(
         "Message received on client side (orders namespace):",
         data

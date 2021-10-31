@@ -48,7 +48,7 @@ orders.on("connection", (socket) => {
       "Message received on server side (orders namespace):",
       messageData
     );
-    io.emit("new-user", messageData);
+    orders.emit("new-user", messageData);
   });
 });
 users.on("connection", (socket) => {
