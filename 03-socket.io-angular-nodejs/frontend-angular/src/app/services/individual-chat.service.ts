@@ -10,10 +10,11 @@ const SOCKET_URL = 'http://localhost:3000';
 export class IndividualChatService {
   public individualChatUsers$: BehaviorSubject<Array<User>> =
     new BehaviorSubject<Array<User>>([]);
-  public currentUser$: BehaviorSubject<User | null> = new BehaviorSubject<User | null>({
-    name: 'Sample',
-    id: '12345',
-  });
+  public currentUser$: BehaviorSubject<User | null> =
+    new BehaviorSubject<User | null>({
+      name: 'Sample',
+      id: '12345',
+    });
   private user: User | null = null;
   private socket: Socket | null = null;
 
@@ -47,10 +48,12 @@ export class IndividualChatService {
   }
 
   public disconnectIndividualUser(): void {
-    this.socket?.disconnect();
-    this.user = null;
-    this.currentUser$.next(this.user);
-    this.getIndividualUsers();
+    this.socket?.emit('disconnect-user', this.user);
+    this.socket?.on('disconnect', () => {
+      this.user = null;
+      this.currentUser$.next(this.user);
+      this.getIndividualUsers();
+    });
   }
 
   public currentUser(): Observable<User | null> {

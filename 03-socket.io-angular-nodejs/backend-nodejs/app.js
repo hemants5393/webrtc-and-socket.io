@@ -29,7 +29,12 @@ io.on("connection", (socket) => {
     // Emit event to all clients
     io.emit("hello", "Hello from server!!!");
   });
-  
+   
+  // Listen to default "disconnect" event
+  socket.on("disconnect-user", () => {
+    socket.disconnect();
+  });
+
   // Listen to default "disconnect" event
   socket.on("disconnect", () => {
     console.log("Socket disconnected from server:", socket.id);
