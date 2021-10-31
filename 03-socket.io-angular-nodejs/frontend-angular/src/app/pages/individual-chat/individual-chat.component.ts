@@ -8,23 +8,36 @@ import { IndividualChatService } from 'src/app/services/individual-chat.service'
   styleUrls: ['./individual-chat.component.scss'],
 })
 export class IndividualChatComponent implements OnInit, OnDestroy {
+  public user: User | undefined;
   public users: Array<object> = [];
   public userName = '';
-  public user: User | undefined;
+  public isLoggedIn = false;
   public header = 'Available users';
   public filterBy = 'true';
   public filterPlaceholder = 'Filter by user name';
-  public isLoggedIn = false;
   constructor(private readonly individualChatService: IndividualChatService) {}
 
   ngOnInit(): void {
-    this.getCurrentUser();
-    this.subscribeToUsers();
+    this.subscribeToCurrentUser();
+    this.subscribeToAllUsers();
   }
 
-  private getCurrentUser(): void {
-    this.individualChatService.currentUser().subscribe((user) => {
+  public connectUser(): void {
+    if (!this.userName) {
+      return;
+    }
+    this.individualChatService.connectUser(this.userName);
+  }
+
+  public disconnectUser(): void {
+    this.individualChatService.disconnectUser();
+  }
+
+  private subscribeToCurrentUser(): void {
+    this.individualChatService.getCurrentUser().subscribe((user) => {
       if (user) {
+        console.log('User connected on client:', user);
+        this.isLoggedIn = true;
         this.user = user;
       } else {
         this.isLoggedIn = false;
@@ -33,24 +46,10 @@ export class IndividualChatComponent implements OnInit, OnDestroy {
     });
   }
 
-  private subscribeToUsers(): void {
-    this.individualChatService
-      .individualChatUsersList()
-      .subscribe((users: Array<User>) => {
-        this.users = users.filter((user) => user.id !== this.user?.id);
-      });
-  }
-
-  public enterIndividualChat(): void {
-    if (!this.userName) {
-      return;
-    }
-    this.isLoggedIn = true;
-    this.individualChatService.registerNewUser(this.userName);
-  }
-
-  public disconnectUser(): void {
-    this.individualChatService.disconnectIndividualUser();
+  private subscribeToAllUsers(): void {
+    this.individualChatService.getAllUsers().subscribe((users: Array<User>) => {
+      this.users = users.filter((user) => user.id !== this.user?.id);
+    });
   }
 
   ngOnDestroy(): void {

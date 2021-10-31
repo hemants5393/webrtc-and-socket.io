@@ -1,44 +1,38 @@
-// All imports
 const express = require("express");
+const app = express(); // Execute the express function
+const server = app.listen(3000); // Start the server on localhost with port "3000"
+const io = require("./socket").init(server); // Setup socket.io
 
-// Execute the express function
-const app = express();
-
-// Start the server on localhost with port "3000"
-const server = app.listen(3000);
-
-// Setup socket.io
-const io = require("./socket").init(server);
-
+/* Code for Individual Chat begins here */
 let individualUsers = [];
- 
-// IO connection event
-io.on("connection", (socket) => {
-  /* Logic for Individual Chat begins here */
-  socket.on("register-new-individual-user", (user) => {
-    console.log(`Individual user connected: ${user.name} (${user.id}).`);
-    socket.emit("new-registered-user", user); // Emit to only sender client
+const iChatIo = io.of("/iChat"); // Created namespace "iChat"
+iChatIo.on("connection", (socket) => {
+  socket.on("connect-user", (user) => {
+    console.log(`iChat user connected: ${user.name} (${user.id}).`);
+    socket.emit("current-user", user); // Emit to only sender client
     individualUsers.push(user);
-    io.emit("individual-users", individualUsers); // Emit event to all connected clients
+    iChatIo.emit("all-users", individualUsers); // Emit event to all connected clients
   });
-  /* Logic for Individual Chat ends here */
- 
-  // Listen to "hello" event from client side
-  socket.on("hello", (message) => {
-    console.log("On server side:", message);
-    // Emit event to all clients
-    io.emit("hello", "Hello from server!!!");
-  });
-   
-  // Listen to default "disconnect" event
+
   socket.on("disconnect-user", () => {
     socket.disconnect();
   });
 
-  // Listen to default "disconnect" event
   socket.on("disconnect", () => {
-    console.log("Socket disconnected from server:", socket.id);
+    //  Listen to default "disconnect" event
+    const user = individualUsers.filter((user) => user.id === socket.id);
+    console.log(`iChat user disconnected: ${user[0].name} (${user[0].id}).`);
     individualUsers = individualUsers.filter((user) => user.id !== socket.id);
-    io.emit("individual-users", individualUsers); // Emit event to all connected clients
+    iChatIo.emit("all-users", individualUsers); // Emit event to all connected clients
   });
 });
+/* Code for Individual Chat ends here */
+
+/* Code for Group Chat begins here */
+// // Listen to "hello" event from client side
+// socket.on("hello", (message) => {
+//   console.log("On server side:", message);
+//   // Emit event to all clients
+//   io.emit("hello", "Hello from server!!!");
+// });
+/* Code for Group Chat ends here */
