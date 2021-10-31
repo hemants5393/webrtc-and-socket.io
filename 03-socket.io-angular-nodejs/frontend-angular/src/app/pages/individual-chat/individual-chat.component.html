@@ -17,11 +17,15 @@
       </div>
     </div>
     <ng-template pTemplate="footer">
-      <p-button
-        label="Enter Individual Chat"
+      <button
+        pButton
+        pRipple
+        type="button"
         icon="pi pi-key"
+        label="Enter Individual Chat"
+        class="p-button-raised"
         (click)="enterIndividualChat()"
-      ></p-button>
+      ></button>
     </ng-template>
   </p-card>
 </div>
@@ -35,8 +39,20 @@
     ></app-display-users-or-rooms>
   </div>
   <div class="right-side">
-    <div class="right-side-header">You are chatting with Sample User
-      <span class="current-user">Logged in as: {{ user?.name }}</span>
+    <div class="right-side-header">
+      You are chatting with Sample User
+      <span class="current-user">
+        <img src="assets/images/sample-user.jpg" class="listItem-image" />
+        {{ user?.name }}
+        <button
+          pButton
+          pRipple
+          type="button"
+          icon="pi pi-sign-out"
+          class="p-button-rounded sign-out-button"
+          (click)="disconnectUser()"
+        ></button>
+      </span>
     </div>
     <div class="right-side-chat-area">Right side</div>
   </div>

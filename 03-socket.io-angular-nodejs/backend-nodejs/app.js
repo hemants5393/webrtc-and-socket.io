@@ -10,8 +10,8 @@ const server = app.listen(3000);
 // Setup socket.io
 const io = require("./socket").init(server);
 
-const individualUsers = [];
-
+let individualUsers = [];
+ 
 // IO connection event
 io.on("connection", (socket) => {
   /* Logic for Individual Chat begins here */
@@ -22,16 +22,18 @@ io.on("connection", (socket) => {
     io.emit("individual-users", individualUsers); // Emit event to all connected clients
   });
   /* Logic for Individual Chat ends here */
-
+ 
   // Listen to "hello" event from client side
   socket.on("hello", (message) => {
     console.log("On server side:", message);
     // Emit event to all clients
     io.emit("hello", "Hello from server!!!");
   });
-
+  
   // Listen to default "disconnect" event
   socket.on("disconnect", () => {
     console.log("Socket disconnected from server:", socket.id);
+    individualUsers = individualUsers.filter((user) => user.id !== socket.id);
+    io.emit("individual-users", individualUsers); // Emit event to all connected clients
   });
 });

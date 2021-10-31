@@ -24,16 +24,20 @@ export class IndividualChatComponent implements OnInit, OnDestroy {
 
   private getCurrentUser(): void {
     this.individualChatService.currentUser().subscribe((user) => {
-      this.user = user;
-      console.log('this.user:', user);
+      if (user) {
+        this.user = user;
+      } else {
+        this.isLoggedIn = false;
+        this.userName = '';
+      }
     });
   }
 
   private subscribeToUsers(): void {
     this.individualChatService
       .individualChatUsersList()
-      .subscribe((users: Array<object>) => {
-        this.users = users;
+      .subscribe((users: Array<User>) => {
+        this.users = users.filter((user) => user.id !== this.user?.id);
       });
   }
 
@@ -45,10 +49,11 @@ export class IndividualChatComponent implements OnInit, OnDestroy {
     this.individualChatService.registerNewUser(this.userName);
   }
 
-  private registerNewUser(): void {}
+  public disconnectUser(): void {
+    this.individualChatService.disconnectIndividualUser();
+  }
 
   ngOnDestroy(): void {
-    this.isLoggedIn = false;
-    // this.individualChatService.disconnectIndividualUser();
+    this.disconnectUser();
   }
 }
