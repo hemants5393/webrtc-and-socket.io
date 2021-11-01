@@ -45,6 +45,7 @@ export class IndividualChatComponent implements OnInit, OnDestroy {
         console.log('User disconnected on client:', this.user);
         this.isLoggedIn = false;
         this.user = null;
+        this.selectedUser = null;
         this.userName = '';
       }
     });
