@@ -59,6 +59,8 @@ export class IndividualChatComponent implements OnInit, OnDestroy {
       if (!lastSelectedUser) {
         this.selectedUser = null;
         this.isUserSelected = false;
+      } else {
+        this.selectedUser = lastSelectedUser;
       }
     });
   }
