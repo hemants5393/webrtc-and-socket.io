@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { User } from 'src/app/models/user.model';
+import { MessageData, User } from 'src/app/models/user.model';
 import { IndividualChatService } from 'src/app/services/individual-chat.service';
 
 @Component({
@@ -69,6 +69,17 @@ export class IndividualChatComponent implements OnInit, OnDestroy {
   public listItemClicked(user: User): void {
     this.isUserSelected = true;
     this.selectedUser = user;
+  }
+
+  public sendMessage(message: string): void {
+    if (message && this.selectedUser && this.user) {
+      const messageData: MessageData = {
+        message,
+        sender: this.user,
+        receiver: this.selectedUser,
+      };
+      this.individualChatService.sendMessage(messageData);
+    }
   }
 
   ngOnDestroy(): void {

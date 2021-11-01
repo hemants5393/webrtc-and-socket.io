@@ -25,6 +25,28 @@ iChatIo.on("connection", (socket) => {
     individualUsers = individualUsers.filter((user) => user.id !== socket.id);
     iChatIo.emit("all-users", individualUsers); // Emit event to all connected clients
   });
+
+  socket.on("message", (messageData) => {
+    const message = messageData.message;
+    const sender = messageData.sender;
+    const receiver = messageData.receiver;
+    const isReceiverPresent = individualUsers.find(
+      (user) => user.id === receiver.id
+    );
+    if (isReceiverPresent) {
+      console.log("messageData received on server:", messageData);
+      // const authorData = {
+      //   ...data,
+      //   isAuthor: true,
+      // };
+
+      // // Emit event with message to sender client
+      // socket.emit("message", authorData);
+
+      // // Emit event with message to receiver client
+      // io.to(receiverSocketId).emit("message", data);
+    }
+  });
 });
 /* Code for Individual Chat ends here */
 

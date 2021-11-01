@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { io, Socket } from 'socket.io-client';
-import { User } from '../models/user.model';
+import { MessageData, User } from '../models/user.model';
 const SOCKET_URL = 'http://localhost:3000/iChat'; // "iChat" is the namespace at backend
 
 @Injectable({
@@ -56,5 +56,9 @@ export class IndividualChatService {
 
   public getAllUsers(): Observable<Array<User>> {
     return this.individualChatUsers$.asObservable();
+  }
+
+  public sendMessage(messageData: MessageData): void {
+    this.iChatSocket?.emit("message", messageData);
   }
 }

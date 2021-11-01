@@ -42,10 +42,13 @@
   </div>
   <div class="right-side">
     <div class="right-side-header">
-      <span *ngIf="!isUserSelected" class="right-side-header-text">Select a user (if available) from left panel to chat with.</span>
-      <span *ngIf="isUserSelected" class="right-side-header-text">You are chatting with:
+      <span *ngIf="!isUserSelected" class="right-side-header-text"
+        >Select a user (if available) from left panel to chat with.</span
+      >
+      <span *ngIf="isUserSelected" class="right-side-header-text"
+        >You are chatting with:
         <span class="user-selected">
-          {{selectedUser?.name}}
+          {{ selectedUser?.name }}
         </span>
       </span>
       <span class="current-user">
@@ -61,6 +64,29 @@
         ></button>
       </span>
     </div>
-    <div class="right-side-chat-area"></div>
+    <div class="right-side-chat-area">
+      <div class="no-user-selected" *ngIf="!selectedUser">
+        No user selected.
+      </div>
+      <div class="message-wrapper" *ngIf="selectedUser">
+        <div class="messages-list">All messages show up here!</div>
+        <div class="p-grid p-fluid message-input-wrapper">
+          <div class="p-col-12 p-md-4">
+            <div class="p-inputgroup">
+              <input type="text" #message pInputText placeholder="Type your message" />
+              <button
+                type="button"
+                pButton
+                pRipple
+                icon="pi pi-send"
+                styleClass="p-button-warn"
+                [disabled]="!message.value"
+                (click)="sendMessage(message.value); message.value=''"
+              ></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
