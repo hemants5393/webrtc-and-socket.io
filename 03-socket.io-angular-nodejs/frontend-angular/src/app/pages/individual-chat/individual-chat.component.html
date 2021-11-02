@@ -69,11 +69,65 @@
         No user selected.
       </div>
       <div class="message-wrapper" *ngIf="selectedUser">
-        <div class="messages-list">All messages show up here!</div>
+        <div class="messages-list">
+          <div class="message-left">
+            Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+            accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
+            quae ab illo inventore veritatis et quasi architecto beatae vitae
+            dicta sunt explicabo.
+          </div>
+          <div class="message-right">
+            Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+            accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
+            quae ab illo inventore veritatis et quasi architecto beatae vitae
+            dicta sunt explicabo.
+          </div>
+          <div class="message-left">
+            Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+            accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
+            quae ab illo inventore veritatis et quasi architecto beatae vitae
+            dicta sunt explicabo.
+          </div>
+          <div class="message-right">
+            Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+            accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
+            quae ab illo inventore veritatis et quasi architecto beatae vitae
+            dicta sunt explicabo.
+          </div>
+          <div class="message-left">
+            Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+            accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
+            quae ab illo inventore veritatis et quasi architecto beatae vitae
+            dicta sunt explicabo.
+          </div>
+          <div class="message-right">
+            Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+            accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
+            quae ab illo inventore veritatis et quasi architecto beatae vitae
+            dicta sunt explicabo.
+          </div>
+          <div class="message-left">
+            Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+            accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
+            quae ab illo inventore veritatis et quasi architecto beatae vitae
+            dicta sunt explicabo.
+          </div>
+          <div class="message-right">
+            Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+            accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
+            quae ab illo inventore veritatis et quasi architecto beatae vitae
+            dicta sunt explicabo.
+          </div>
+        </div>
         <div class="p-grid p-fluid message-input-wrapper">
           <div class="p-col-12 p-md-4">
             <div class="p-inputgroup">
-              <input type="text" #message pInputText placeholder="Type your message" />
+              <input
+                type="text"
+                #message
+                pInputText
+                placeholder="Type your message"
+              />
               <button
                 type="button"
                 pButton
@@ -81,7 +135,7 @@
                 icon="pi pi-send"
                 styleClass="p-button-warn"
                 [disabled]="!message.value"
-                (click)="sendMessage(message.value); message.value=''"
+                (click)="sendMessage(message.value); message.value = ''"
               ></button>
             </div>
           </div>
