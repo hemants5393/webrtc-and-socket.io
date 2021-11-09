@@ -14,6 +14,26 @@ iChatIo.on("connection", (socket) => {
     iChatIo.emit("all-users", individualUsers); // Emit event to all connected clients
   });
 
+  socket.on("message", (messageData) => {
+    const receiver = messageData.receiver;
+    const isReceiverPresent = individualUsers.find(
+      (user) => user.id === receiver.id
+    );
+    if (isReceiverPresent) {
+      // Emit event with message to sender client
+      socket.emit("message", {
+        ...messageData,
+        isSender: true,
+      });
+
+      // Emit event with message to receiver client
+      iChatIo.to(receiver.id).emit("message", {
+        ...messageData,
+        isSender: false,
+      });
+    }
+  });
+
   socket.on("disconnect-user", () => {
     socket.disconnect();
   });
@@ -24,28 +44,6 @@ iChatIo.on("connection", (socket) => {
     console.log(`iChat user disconnected: ${user[0].name} (${user[0].id}).`);
     individualUsers = individualUsers.filter((user) => user.id !== socket.id);
     iChatIo.emit("all-users", individualUsers); // Emit event to all connected clients
-  });
-
-  socket.on("message", (messageData) => {
-    const message = messageData.message;
-    const sender = messageData.sender;
-    const receiver = messageData.receiver;
-    const isReceiverPresent = individualUsers.find(
-      (user) => user.id === receiver.id
-    );
-    if (isReceiverPresent) {
-      console.log("messageData received on server:", messageData);
-      // const authorData = {
-      //   ...data,
-      //   isAuthor: true,
-      // };
-
-      // // Emit event with message to sender client
-      // socket.emit("message", authorData);
-
-      // // Emit event with message to receiver client
-      // io.to(receiverSocketId).emit("message", data);
-    }
   });
 });
 /* Code for Individual Chat ends here */

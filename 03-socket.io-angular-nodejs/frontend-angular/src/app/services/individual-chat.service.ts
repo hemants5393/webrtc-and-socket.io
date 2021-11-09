@@ -12,21 +12,28 @@ export class IndividualChatService {
     new BehaviorSubject<Array<User>>([]);
   public currentUser$: BehaviorSubject<User | null> =
     new BehaviorSubject<User | null>(null);
+  public newMessage$: BehaviorSubject<MessageData | null> =
+    new BehaviorSubject<MessageData | null>(null);
   private iChatSocket: Socket | null = null;
 
   constructor() {}
 
   public connectUser(userName: string): void {
     this.iChatSocket = io(SOCKET_URL); // Create socket with namespace "iChat"
+
+    // Listen to default 'connect' event
     this.iChatSocket.on('connect', () => {
-      // Listen to default 'connect' event
+      console.log('this.iChatSocket:', this.iChatSocket);
       const user = {
         name: userName,
         id: this.iChatSocket?.id,
       };
       this.iChatSocket?.emit('connect-user', user);
+
+      // Listen to all events (Always keep listening to socket events.)
       this.fetchCurrentUser();
       this.fetchAllUsers();
+      this.fetchNewMessage();
     });
   }
 
@@ -34,7 +41,6 @@ export class IndividualChatService {
     this.iChatSocket?.emit('disconnect-user');
     this.iChatSocket?.on('disconnect', () => {
       this.currentUser$.next(null);
-      this.fetchAllUsers();
     });
   }
 
@@ -59,6 +65,16 @@ export class IndividualChatService {
   }
 
   public sendMessage(messageData: MessageData): void {
-    this.iChatSocket?.emit("message", messageData);
+    this.iChatSocket?.emit('message', messageData);
+  }
+
+  private fetchNewMessage(): void {
+    this.iChatSocket?.on('message', (messageData: MessageData) => {
+      this.newMessage$.next(messageData);
+    });
+  }
+
+  public getNewMessage(): Observable<MessageData | null> {
+    return this.newMessage$.asObservable();
   }
 }

@@ -22,6 +22,7 @@ export class IndividualChatComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscribeToCurrentUser();
     this.subscribeToAllUsers();
+    this.subscribeToNewMessage();
   }
 
   public connectUser(): void {
@@ -64,6 +65,14 @@ export class IndividualChatComponent implements OnInit, OnDestroy {
         this.selectedUser = lastSelectedUser;
       }
     });
+  }
+
+  private subscribeToNewMessage(): void {
+    this.individualChatService
+      .getNewMessage()
+      .subscribe((messageData: MessageData | null) => {
+        console.log('Message on client:', messageData);
+      });
   }
 
   public listItemClicked(user: User): void {
