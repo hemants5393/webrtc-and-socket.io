@@ -17,6 +17,9 @@ export class IndividualChatComponent implements OnInit, OnDestroy {
   public filterPlaceholder = 'Filter by user name';
   public isUserSelected = false;
   public selectedUser: User | null = null;
+  public messagesMap: Map<string, Array<MessageData>> = new Map();
+  public messagesList: Array<MessageData> | undefined;
+
   constructor(private readonly individualChatService: IndividualChatService) {}
 
   ngOnInit(): void {
@@ -71,13 +74,43 @@ export class IndividualChatComponent implements OnInit, OnDestroy {
     this.individualChatService
       .getNewMessage()
       .subscribe((messageData: MessageData | null) => {
-        console.log('Message on client:', messageData);
+        if (messageData) {
+          if (messageData?.isSender) {
+            const receiverId = messageData?.receiver?.id;
+            let messages: Array<MessageData>;
+            if (this.messagesMap.get(receiverId)) {
+              messages = [
+                ...(this.messagesMap.get(receiverId) as Array<MessageData>),
+                messageData,
+              ];
+            } else {
+              messages = [messageData];
+            }
+            this.messagesMap.set(receiverId, messages);
+          } else {
+            const senderId = messageData?.sender?.id;
+            let messages: Array<MessageData>;
+            if (this.messagesMap.get(senderId)) {
+              messages = [
+                ...(this.messagesMap.get(senderId) as Array<MessageData>),
+                messageData,
+              ];
+            } else {
+              messages = [messageData];
+            }
+            this.messagesMap.set(senderId, messages);
+          }
+          if (this.selectedUser) {
+            this.messagesList = this.messagesMap.get(this.selectedUser.id);
+          }
+        }
       });
   }
 
   public listItemClicked(user: User): void {
     this.isUserSelected = true;
     this.selectedUser = user;
+    this.messagesList = this.messagesMap.get(this.selectedUser.id);
   }
 
   public sendMessage(message: string): void {
